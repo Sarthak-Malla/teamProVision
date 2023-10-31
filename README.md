@@ -112,7 +112,6 @@ dashboard view for the member
 **Member Features**
 - As a member, I can access projects I've been assigned to and view project details.
 - I can view the tasks assigned to me, update their status, and collaborate within project discussions.
-- I can access and download shared project files for reference and contribution.
 
 These user stories succinctly outline the key functionalities available to leaders and members within TeamProVision.
 
