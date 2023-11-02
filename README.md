@@ -8,13 +8,13 @@ Within TeamProVision, team leaders have advanced privileges, including the abili
 ## Data Model
 
 The application will store following entities:
-1. Users
-  * Team Leader <br>
+1. **Users**
+    * Team Leader <br>
     Every team leader can make projects and assign tasks to team members.
-  * Team Member <br>
+    * Team Member <br>
     Can track task progress and mark task completions.
 2. Project and Tasks <br>
-  Projects can be made by the Team Leader, while Tasks can be made by both members and leaders. However, assigning a task is only possible by the Leader.
+      Projects can be made by the Team Leader, while Tasks can be made by both members and leaders. However, assigning a task is only possible by the Leader.
 
 An Example User:
 
@@ -67,8 +67,6 @@ An Example Task:
 
 ## Wireframes
 
-(__TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc.)
-
 /register -> a page to register user
 
 <img src="documentation/register.png" width="700">
@@ -79,7 +77,7 @@ An Example Task:
 
 /confirmLeader -> a page to prompt the registered user if they are a team leader
 
-<img src="documentation/confrim-leader.png" width="700">
+<img src="documentation/confirm-leader.png" width="700">
 
 /u/:username -> a dashboard for all users. This will be different for Leaders and Members <br>
 dashboard view for the leader
@@ -117,8 +115,8 @@ These user stories succinctly outline the key functionalities available to leade
 
 ## Research Topics
 
-* (5 points) React.js
-    * use react.js for the frontend framework
+* (5 points) Next.js
+    * use next.js for the frontend and backend framework
 * (4 points) Google Authentication
     * I want register and log in through google authentication. I am looking into using FireBase for it.
 * (1 points) TailwindCSS
@@ -128,9 +126,7 @@ These user stories succinctly outline the key functionalities available to leade
 
 ## Annotations / References Used
 
-(__TODO__: list any tutorials/references/etc. that you've based your code off of)
-
 1. [TailwindCSS docs](https://v2.tailwindcss.com/docs)
 2. [FireBase Authentication](https://firebase.google.com/docs/auth)
-3. [React documentation](https://devdocs.io/react/)
+3. [Next.js documentation](https://nextjs.org/docs)
 
