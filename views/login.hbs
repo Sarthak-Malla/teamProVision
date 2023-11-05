@@ -1,0 +1,11 @@
+<h1 class="page-heading">Login</h1>
+    
+{{#if error}}
+    <div class="error">{{error}}</div>
+{{/if}}
+
+<form method="POST" action="">
+    Username: <input type="text" name="username" id="login-username">
+    Password: <input type="password" name="password" id="login-password">
+    <button type="submit">Login</button>
+</form>

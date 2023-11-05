@@ -5,6 +5,7 @@ console.log(process.env.DSN);
 mongoose.connect(process.env.DSN);
 
 const UserSchema = new mongoose.Schema({
+    userID: {type: String, required: true},
     username: {type: String, required: true},
     hash: {type: String, required: true},
     team_leader: {type: Boolean, required: true},
@@ -14,6 +15,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 const ProjectSchema = new mongoose.Schema({
+    projectID: {type: String, required: true},
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     name: {type: String, required: true},
     description: {type: String, required: true},
@@ -26,6 +28,7 @@ const ProjectSchema = new mongoose.Schema({
 });
 
 const TaskSchema = new mongoose.Schema({
+    taskID: {type: String, required: true},
     user: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     description: {type: String, required: true},
     startedAt: {type: Date, required: true},

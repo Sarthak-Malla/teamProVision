@@ -1,0 +1,14 @@
+<h1 class="page-heading">Register</h1>
+
+{{#if error}}
+    <div class="error">{{error}}</div>
+{{/if}}
+
+<form method="POST" action="">
+    Username: <input type="text" name="username" id="register-username">
+    Password: <input type="password" name="password" id="register-password">
+
+    Are you a Team Leader?: <input type="checkbox" name="isLeader" id="register-isLeader">
+
+    <button type="submit">Register</button>
+</form>
