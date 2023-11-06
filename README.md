@@ -59,7 +59,7 @@ An Example Task:
   `
   startedAt: // timestamp
   deadline: // timestamp
-  progress: // a number from 0-100
+  status: // a string to indicate the status of the task
 }
 ```
 

@@ -1,0 +1,94 @@
+<h1 class="page-heading">Create Task</h1>
+
+<form method="POST" id="taskForm">
+    Name: <input type="text" name="taskName" required />
+    Description: <textarea name="taskDescription" ></textarea>
+    Started Date: <input type="date" name="taskStartDate" required />
+    Due Date: <input type="date" name="taskDueDate" />
+
+    Status: <select name="taskStatus">
+        <option value="Not Started">Not Started</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+    </select>
+    <div id="memberContainer">
+        <!-- Existing members will be displayed here -->
+        Members:
+    </div>
+    <input type="text" name="" id="memberInput" placeholder="Add members" onkeydown="handlememberInput(event)">
+    Project (Optional): <select name="taskProject">
+        <option value="">None</option>
+        {{#each projects}}
+        <option value="{{this.projectID}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit" value="Add Task" />
+</form>
+
+<script>
+    // select the member container and input
+    const memberContainer = document.getElementById('memberContainer');
+    const memberInput = document.getElementById('memberInput');
+    const taskForm = document.getElementById('taskForm');
+
+    // add event listener to the form
+    taskForm.addEventListener('submit', (event) => {
+        // prevent the form from submitting
+        event.preventDefault();
+
+        // get the members
+        const members = Array.from(memberContainer.getElementsByClassName('member-text'))
+                            .map(member => member.textContent);
+
+        console.log("Adding members to task:", members);
+
+        // create a hidden input
+        const memberInput = document.createElement('input');
+        memberInput.type = 'hidden';
+        memberInput.name = 'taskMembers';
+        memberInput.value = members.join(',');
+
+        // append the input to the form
+        taskForm.appendChild(memberInput);
+
+        // submit the form
+        taskForm.submit();
+    });
+
+    // add event listener to the input
+    function handlememberInput(event) {
+        // check if the user pressed enter or comma
+        if (event.key === 'Enter' || event.key === ',') {
+            event.preventDefault();
+            const member = memberInput.value.trim();
+
+            // check if the member is empty
+            if (member) {
+                addmember(member);
+            }
+
+            memberInput.value = '';
+        }
+    }
+
+    // add member to the container
+    function addmember(member) {
+        const memberElement = document.createElement('div');
+        memberElement.className = 'member';
+
+        const memberText = document.createElement('span');
+        memberText.className = 'member-text';
+        memberText.textContent = member;
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove';
+        removeButton.innerHTML = '❌';
+        removeButton.addEventListener('click', () => {
+            memberElement.remove();
+        });
+
+        memberElement.appendChild(memberText);
+        memberElement.appendChild(removeButton);
+        memberContainer.appendChild(memberElement);
+    }
+</script>

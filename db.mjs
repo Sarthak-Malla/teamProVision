@@ -30,10 +30,12 @@ const ProjectSchema = new mongoose.Schema({
 const TaskSchema = new mongoose.Schema({
     taskID: {type: String, required: true},
     user: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    name: {type: String, required: true},
     description: {type: String, required: true},
     startedAt: {type: Date, required: true},
     deadline: {type: Date, required: true},
-    progress: {type: Number, required: true},
+    status: {type: String, required: true},
+    members: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     project: {type: mongoose.Schema.Types.ObjectId, ref: 'Project'}
 });
 
