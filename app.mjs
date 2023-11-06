@@ -96,12 +96,18 @@ app.get('/logout', (req, res) => {
 // dashboard page for user
 app.get('/:username/dashboard', async (req, res) => {
     if (req.session.user) {
+        // TODO: fetch the projects and tasks of the user from the database
+        // and pass them to the dashboard page
+        const user = await User.findOne({ userID: req.session.user.userID }).populate('projects').populate('tasks');
+
+        console.log(user);
+
         const user_info = {
             username: req.session.user.username,
             team_leader: req.session.user.team_leader
         };
 
-        res.render('dashboard', { user: user_info, projects: req.session.user.projects, tasks: req.session.user.tasks });
+        res.render('dashboard', { user: user_info, projects: user.projects, tasks: user.tasks });
     } else {
         res.redirect('/');
     }
@@ -135,7 +141,6 @@ app.post('/:username/createProject', async (req, res) => {
             members: [req.session.user, ...memberIDs],
             leader: req.session.user
         });
-        req.session.user.projects.push(project);
 
         // TODO: save the project to the database
         const savedProject = await project.save();
@@ -146,6 +151,10 @@ app.post('/:username/createProject', async (req, res) => {
             foundUser.projects.push(savedProject);
             await foundUser.save();
         });
+        // TODO: Add the project to the user's projects array in the database
+        const user = await User.findOne({ userID: req.session.user.userID });
+        user.projects.push(savedProject);
+        await user.save();
 
         res.redirect(`/${req.session.user.username}/dashboard`);
     } else {
