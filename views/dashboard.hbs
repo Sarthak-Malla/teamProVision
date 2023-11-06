@@ -1,0 +1,38 @@
+<h1 class="page-heading">Dashboard</h1>
+
+{{!-- get the user data --}}
+{{#with user}}
+    <p>Welcome back, {{username}}!</p>
+{{/with}}
+
+{{#if user.team_leader}}
+    <div class="leader-dashboard-landing">
+        <h2 class="create-project">Create Project</h2>
+        <a href="/{{user.username}}/createProject">Create</a>
+    </div>
+    <div class="leader-dashboard-projects">
+        <h2 class="projects">Existing Projects</h2>
+        <ul class="project-list">
+            {{#each projects}}
+                <li class="project-item">{{name}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{else}}
+    <div class="member-dashboard-landing">
+        <h2 class="projects">Projects</h2>
+        <ul class="project-list">
+            {{#each projects}}
+                <li class="project-item">{{name}}</li>
+            {{/each}}
+        </ul>
+    </div>
+    <div class="member-dashboard-tasks">
+        <h2 class="tasks">Tasks</h2>
+        <ul class="task-list">
+            {{#each tasks}}
+                <li class="task-item">{{name}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
