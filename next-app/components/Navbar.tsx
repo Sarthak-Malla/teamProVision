@@ -14,37 +14,45 @@ export default function Navbar() {
   return (
     <nav className="bg-blue-500 p-4">
       <ul className="flex justify-evenly items-center">
-        <li>
-          <Link href="/">
-            <button className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md">teamProVision</button>
-          </Link>
-        </li>
-        <li className='flex justify-center items-center gap-4'>
+        <Link href="/">
+          <button className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md">teamProVision</button>
+        </Link>
+        <div className='flex justify-center items-center gap-4'>
           {username && leader && (
             <>
-              <li>
+              <div>
                 <Link href={`/${username}/createProject`}>
                   <button className="text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md">Create Project</button>
                 </Link>
-              </li>
-              <li>
+              </div>
+              <div>
                 <Link href={`/${username}/dashboard`}>
                   <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">Dashboard</button>
                 </Link>
-              </li>
-              <li>
+              </div>
+              <div>
                 <SignOutButton />
-              </li>
+              </div>
+            </>
+          )}
+          {username && !leader && (
+            <>
+              <div>
+                <Link href={`/${username}/dashboard`}>
+                  <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">Dashboard</button>
+                </Link>
+              </div>
+              <div>
+                <SignOutButton />
+              </div>
             </>
           )}
           {!username && (
-            <li>
-              <Link href="/login">
-                <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">Log in</button>
-              </Link>
-            </li>
+            <Link href="/login">
+              <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">Log in</button>
+            </Link>
           )}
-        </li>
+        </div>
 
       </ul>
     </nav>
