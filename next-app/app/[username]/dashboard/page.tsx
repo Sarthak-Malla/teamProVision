@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
-import { useContext } from 'react';
-import { useUserData } from '../../../lib/hooks';
+import { useUserContext } from '../../context/store';
 
 // set-up a mock user
 const mockUser = {
@@ -17,88 +16,63 @@ const mockUser = {
 const Dashboard = () => {
   const pathname = usePathname();
 
-  const [currUser, setUser] = useState(mockUser);
+  let { user, username, leader } = useUserContext();
 
-  let { user, username, leader } = useUserData();
-
-  if (currUser.username !== username){
-    // @ts-ignore
-    setUser(user);
-  }
-
-  // Get the username from the query parameters
-  // the query has the format:
   const currUsername = pathname?.split('/')[1].replace('-', ' ');
 
   useEffect(() => {
-    // get the data for the user with the username
-    if (currUsername === username) {
-      // @ts-ignore
-        const userEmail = currUser.email;
-        const queryObject = {
-          email: userEmail
-        }
-        fetch(`/api/getUser?query=${JSON.stringify(queryObject)}`)
-            .then(res => res.json())
-            .then(data => {
-              console.log(data);
-                user = data;
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-    }, [username]);
-
-  if (!currUser) {
-    return <p>Loading...</p>;
-  }
+    user = null;
+  }, [currUsername]);
 
   return (
     <div>
-      <h1 className="page-heading">Dashboard</h1>
+      <h1 className="text-2xl font-bold text-center mt-10">Dashboard</h1>
 
-      {currUser && (
+      {/* if the user is not authorized, ask them to log in */}
+      {!user && (
+        <p className="text-center mt-4">
+          Please <a href="/login" className="text-blue-500">log in</a> to view your dashboard.
+        </p>
+      )}
+
+      {/* if user is authorized, we display their dashboard */}
+      {user && username && (
         <>
-          <p>Welcome back, {currUser.username}!</p>
+          <p className="text-center mt-4">
+            Welcome back, {username}!
+          </p>
 
-          {currUser.team_leader ? (
+          {leader ? (
             <>
-                <div className="leader-dashboard-landing">
-                <h2 className="create-project">Create Project</h2>
-                <a href={`/${currUser.username}/createProject`}>Create</a>
-                </div>
-                <div className="leader-dashboard-projects">
-                <h2 className="projects">Existing Projects</h2>
-                <ul className="project-list">
-                    {currUser.projects.map((project, index) => (
-                    <li key={index} className="project-item">
-                        {/* {project.name} */}
-                    </li>
-                    ))}
-                </ul>
-                </div>
-            </>
-          ) : (
-            <>
-              <div className="member-dashboard-landing">
-                <h2 className="projects">Projects</h2>
-                <ul className="project-list">
-                  {currUser.projects.map((project, index) => (
-                    <li key={index} className="project-item">
-                      {/* {project.name} */}
-                    </li>
+              <div className="mt-4 p-4 border border-gray-300">
+                <h2 className="text-xl font-semibold">Create Project</h2>
+                <a href={`/${username}/createProject`} className="text-blue-500">Create</a>
+              </div>
+              <div className="mt-4 p-4 border border-gray-300">
+                <h2 className="text-xl font-semibold">Existing Projects</h2>
+                <ul className="list-disc list-inside">
+                  {user.projects.map((project: any, index: any) => (
+                    <li key={index}>{project.name}</li>
                   ))}
                 </ul>
               </div>
-              <div className="member-dashboard-tasks">
-                <h2 className="tasks">Tasks</h2>
-                <a href={`/${currUser.username}/createTask`}>Add Task(s)</a>
-                <ul className="task-list">
-                  {currUser.tasks.map((task, index) => (
-                    <li key={index} className="task-item">
-                      {/* {task.name} */}
-                    </li>
+            </>
+          ) : (
+            <>
+              <div className="mt-4 p-4 border border-gray-300">
+                <h2 className="text-xl font-semibold">Projects</h2>
+                <ul className="list-disc list-inside">
+                  {user.projects.map((project: any, index: any) => (
+                    <li key={index}>{project.name}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-4 p-4 border border-gray-300">
+                <h2 className="text-xl font-semibold">Tasks</h2>
+                <a href={`/${username}/createTask`} className="text-blue-500">Add Task(s)</a>
+                <ul className="list-disc list-inside">
+                  {user.tasks.map((task: any, index: any) => (
+                    <li key={index}>{task.name}</li>
                   ))}
                 </ul>
               </div>
@@ -107,6 +81,7 @@ const Dashboard = () => {
         </>
       )}
     </div>
+
   );
 };
 
