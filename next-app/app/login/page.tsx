@@ -1,20 +1,26 @@
 "use client";
 
-import { useContext } from 'react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
 import { auth, provider } from '../../config/firebaseConfig'
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
-import { UserContext } from '../../lib/context';
 
+import { useUserContext } from '@/app/context/store';
 
 export default function Login() {
-  const { user, username } = useContext(UserContext);
+  const { user, username, leader } = useUserContext();
 
   // @ts-ignore
   const slug = username?.replace(' ', '-');
 
-  if (user) {
-    window.location.href = `/${slug}/dashboard`;
-  }
+  // route to dashboard if user is logged in
+  const router = useRouter();
+  useEffect(() => {
+    if (user) {
+      router.push(`/${slug}/dashboard`);
+    }
+  }, [user]);
 
   return (
     <main className="flex justify-center items-center h-[90vh]">
