@@ -1,4 +1,10 @@
-node_modules
-*.swo
-*.swp
-.env
+**/node_modules
+**/*.swo
+**/*.swp
+**/.env
+
+**/.next
+**/.npm
+
+**/.env.local
+**/.DS_Store

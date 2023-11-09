@@ -6,10 +6,6 @@ import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import mongoose from 'mongoose';
-
-import { randomUUID } from 'crypto';
-
 import { loginRoute } from './routes/login.mjs';
 import { registerRoute } from './routes/register.mjs';
 import { dashboardRoute } from './routes/dashboard.mjs';

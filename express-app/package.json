@@ -15,5 +15,9 @@
     "express-session": "^1.17.3",
     "hbs": "^4.2.0",
     "mongoose": "^7.6.4"
+  },
+  "dependencies": {
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0"
   }
 }

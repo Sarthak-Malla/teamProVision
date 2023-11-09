@@ -115,11 +115,11 @@ These user stories succinctly outline the key functionalities available to leade
 
 ## Research Topics
 
-* (5 points) Next.js
-    * use next.js for the frontend and backend framework
-* (4 points) Google Authentication
-    * I want register and log in through google authentication. I am looking into using FireBase for it.
-* (1 points) TailwindCSS
+* (3 points) dotenv
+    * I'm using dotenv to store my environment variables. This is to prevent my API keys from being exposed.
+* (5 points) Google Authentication
+    * I want register and log in through google authentication. Use passport.js to authenticate users through google.
+* (2 points) TailwindCSS
     * use tailwind for easier styling of the pages
 
 ## [Link to Initial Main Project File](app.mjs)
@@ -127,6 +127,5 @@ These user stories succinctly outline the key functionalities available to leade
 ## Annotations / References Used
 
 1. [TailwindCSS docs](https://v2.tailwindcss.com/docs)
-2. [FireBase Authentication](https://firebase.google.com/docs/auth)
-3. [Next.js documentation](https://nextjs.org/docs)
+2. [Passport Authentication](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jdm7QX143aMLAqyM-jTZ2x)
 
