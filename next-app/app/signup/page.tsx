@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { useUserContext } from '../context/store';
 
@@ -81,14 +80,6 @@ const SignUp = () => {
     const handleNoClick = () => {
         setIsLeader(false);
     };
-
-    // const router = useRouter();
-
-    // useEffect(() => {
-    //     if (user) {
-    //         router.push(`/${username}/dashboard`);
-    //     }
-    // }, [user]);
 
     return (
         <div className="flex justify-center items-center h-[calc(100vh-12rem)]">

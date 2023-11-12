@@ -12,7 +12,7 @@ export default async function handler(req: any, res: any) {
       const { email, name } = req.body;
       const { query } = req.query;
 
-      const isLeader = JSON.parse(query) ? true : false;
+      const isLeader = JSON.parse(query);
 
       const foundUser = await User.findOne({ email });
 

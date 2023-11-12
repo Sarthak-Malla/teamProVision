@@ -1,28 +1,17 @@
 "use client";
 
-import { use, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-
 import { auth, provider } from '../../config/firebaseConfig'
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 import { useUserContext } from '@/app/context/store';
-import { sign } from 'crypto';
 
 export default function Login() {
   const { user, username, leader } = useUserContext();
-  const [clicked, setClicked] = useState(false);
 
-  // @ts-ignore
-  const slug = username?.replace(' ', '-');
-
-  // route to dashboard if user is logged in
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (user) {
-  //     router.push(`/${slug}/dashboard`);
-  //   }
-  // }, [user]);
+  if (user) {
+    const slug = username.replace(' ', '-');
+    window.location.href = `/${slug}/dashboard`;
+  }
 
   return (
     <main className="flex justify-center items-center h-[90vh]">
@@ -73,9 +62,6 @@ export function SignInButton() {
           }).catch((error) => {
             console.log(error);
           });
-        } else {
-          const slug = data[0].name.replace(' ', '-');
-          window.location.href = `/${slug}/dashboard`;
         }
 
       }).catch((error) => {

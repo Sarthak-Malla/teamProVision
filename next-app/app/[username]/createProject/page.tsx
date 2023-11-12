@@ -85,11 +85,11 @@ function CreateProjectForm() {
         const response = await fetch("/api/createProject", {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(query),
-        });   
-    
+        });
+
         if (response.status === 200) {
             // setAlreadyExists(false);
             console.log('Project created successfully');
@@ -110,86 +110,96 @@ function CreateProjectForm() {
     };
 
     return (
-        <div className='flex justify-center items-center flex-col'>
-            <h1 className="text-2xl font-bold text-center mt-10">Create Your Project</h1>
+        <div className='flex flex-col justify-start items-center min-h-screen'>
+            <h1 className="m-8 text-4xl">Create Your Project</h1>
 
             {!user && (
-                <p className="text-center mt-4">
-                    Please <a href="/login" className="text-blue-500">log in</a> to view your dashboard.
+                <p className="">
+                    Please <a href="/login" className="">log in</a> to view your dashboard.
                 </p>
             )}
 
             {alreadyExists && (
-                <h3 className="text-center mt-4">
+                <h3 className="">
                     Project already exists.
                 </h3>
-                )}
+            )}
 
             {user && (
-            <form onSubmit={handleFormSubmit} className="mt-4" id="projectForm">
-                <div className="mb-4">
-                    <label className="block">Name:</label>
-                    <input
-                        type="text"
-                        name="projectName"
-                        required
-                        onChange={(e) => setProjectName(e.target.value)}
-                    />
-                </div>
+                <div className='p-4 w-[40%] bg-primary border mx-auto'>
+                    <form onSubmit={handleFormSubmit} className="" id="projectForm">
+                        <div className="p-2">
+                            <label className="block">Name:</label>
+                            <input
+                                type="text"
+                                name="projectName"
+                                className='w-full shadow-sm border rounded p-1'
+                                required
+                                onChange={(e) => setProjectName(e.target.value)}
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block">Description:</label>
-                    <textarea
-                        name="projectDescription"
-                        required
-                        onChange={(e) => setProjectDescription(e.target.value)}
-                    ></textarea>
-                </div>
+                        <div className="p-2">
+                            <label className="block">Description:</label>
+                            <textarea
+                                name="projectDescription"
+                                required
+                                className='w-full shadow-sm border rounded p-1'
+                                onChange={(e) => setProjectDescription(e.target.value)}
+                            ></textarea>
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block">Started Date:</label>
-                    <input
-                        type="date"
-                        name="projectStartDate"
-                        required
-                        onChange={(e) => setProjectStartDate(e.target.value)}
-                    />
-                </div>
+                        <div className="p-2">
+                            <label className="block">Started Date:</label>
+                            <input
+                                type="date"
+                                name="projectStartDate"
+                                className='w-full shadow-sm border rounded p-1'
+                                required
+                                onChange={(e) => setProjectStartDate(e.target.value)}
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block">Due Date:</label>
-                    <input
-                        type="date"
-                        name="projectDueDate"
-                        onChange={(e) => setProjectDueDate(e.target.value)}
-                    />
-                </div>
+                        <div className="p-2">
+                            <label className="block">Due Date:</label>
+                            <input
+                                type="date"
+                                name="projectDueDate"
+                                className='w-full shadow-sm border rounded p-1'
+                                onChange={(e) => setProjectDueDate(e.target.value)}
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block">Member Emails:</label>
-                    <div id="memberContainer" className="mb-2">
-                        {members.map((member, index) => (
-                            <span key={index} className="bg-blue-100 p-1 rounded m-1">
-                                {member}
-                                <img onClick={handleRemoveMember} src="/x.png" alt="delete" className=' w-4 inline' />
-                            </span>
-                        ))}
-                    </div>
-                    <input
-                        type="text"
-                        name="projectMembers"
-                        placeholder="Add members"
-                        onKeyDown={handleAddMember}
-                    />
+                        <div className="p-2">
+                            <label className="block">Member Emails:</label>
+                            <div id="memberContainer" className="mb-2 flex flex-wrap">
+                                {members.map((member, index) => (
+                                    <span key={index} className="bg-secondary text-black p-1 rounded m-1 ">
+                                        {member}
+                                        <img onClick={handleRemoveMember} src="/x.png" alt="delete" className=' w-4 inline ml-2' />
+                                    </span>
+                                ))}
+                            </div>
+                            <input
+                                type="text"
+                                name="projectMembers"
+                                placeholder="Add members"
+                                className='w-full shadow-sm border rounded p-1'
+                                onKeyDown={handleAddMember}
+                            />
+                        </div>
+                        
+                        <div className='flex justify-center items-center p-2'>
+                            <button
+                                type="submit"
+                                className="bg-purple text-primary px-8 py-2 hover:bg-tertiary hover:text-white "
+                            >
+                                Create
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <button
-                    type="submit"
-                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-                >
-                    Create
-                </button>
-            </form>)}
+            )}
         </div>
     );
 }

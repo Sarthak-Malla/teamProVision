@@ -24,8 +24,6 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
 
     const [userAuth, loading, error] = useAuthState(auth);
 
-    console.log(user);
-
     useEffect(() => {
         if (userAuth) {
             const userEmail = userAuth.email;

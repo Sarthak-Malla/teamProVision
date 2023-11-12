@@ -1,6 +1,7 @@
 "use client";
+import Link from 'next/link';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { useUserContext } from '../../context/store';
@@ -13,10 +14,47 @@ const mockUser = {
   tasks: [],
 };
 
+const ProjectCard = ({ project }: any) => {
+  const name = project.name;
+  const description = project.description.slice(0, 150) + '...';
+  const startDate = new Date(project.startedAt).toLocaleDateString();
+
+  return (
+    <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
+                    p-8
+                    flex flex-col
+                    hover:bg-purple hover:text-primary hover:animate-pulse'>
+      <h2 className="text-2xl font-semibold flex-grow
+                      flex justify-center items-center
+                      ">{name}</h2>
+      <p className='text-sm text-tertiary mb-2'>Start Date: {startDate}</p>
+      <p className='flex-grow flex justify-center items-start'>{description}</p>
+    </div>
+  );
+};
+
+const CreateCard = ({username}: {username: string}) => {
+  return (
+    <Link href={`/${username.replace(' ', '-')}/createProject`} className='inline-block w-[12rem]'>
+      <div className='w-[12rem] h-[15rem] border border-quaternary shadow-lg
+                        flex flex-col items-center hover:animate-pulse'>
+        <div className='flex-grow flex justify-center items-center
+                      bg-primary'>
+          <img src='/plus.png' className=" w-[50%]" />
+        </div>
+        <p className='flex-grow flex justify-center items-center px-4'>Create a new project for your team.</p>
+      </div>
+    </Link>
+  );
+}
+
 const Dashboard = () => {
   const pathname = usePathname();
 
   let { user, username, leader } = useUserContext();
+
+  const [projects, setProjects] = useState([] as any);
+  let [count, setCount] = useState(0);
 
   const currUsername = pathname?.split('/')[1].replace('-', ' ');
 
@@ -24,9 +62,20 @@ const Dashboard = () => {
     user = null;
   }, [currUsername]);
 
+  if (user && !count) {
+    // only fetch projects once
+    setCount(1);
+
+    fetch(`/api/getProjects?email=${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProjects(data);
+      });
+  }
+
   return (
     <div>
-      <h1 className="text-2xl font-bold text-center mt-10">Dashboard</h1>
+      <h1 className="text-3xl font-bold text-center mt-10">Dashboard</h1>
 
       {/* if the user is not authorized, ask them to log in */}
       {!user && (
@@ -44,30 +93,30 @@ const Dashboard = () => {
 
           {leader ? (
             <>
-              <div className="mt-4 p-4 border border-gray-300">
-                <h2 className="text-xl font-semibold">Create Project</h2>
-                <a href={`/${username}/createProject`} className="text-blue-500">Create</a>
+              <div className="my-12 px-64">
+                <h2 className="text-2xl font-semibold mb-8">Create Project</h2>
+                <CreateCard username={username} />
               </div>
-              <div className="mt-4 p-4 border border-gray-300">
-                <h2 className="text-xl font-semibold">Existing Projects</h2>
-                <ul className="list-disc list-inside">
-                  {user.projects.map((project: any, index: any) => (
-                    <li key={index}>{project.name}</li>
+              <div className="my-12 px-64">
+                <h2 className="text-2xl font-semibold mb-8">Existing Projects</h2>
+                <div className='flex flex-wrap gap-[2rem]'>
+                  {projects.map((project: any, index: any) => (
+                    <ProjectCard project={project} key={index} />
                   ))}
-                </ul>
+                </div>
               </div>
             </>
           ) : (
             <>
-              <div className="mt-4 p-4 border border-gray-300">
+              <div className="mx-4 px-64">
                 <h2 className="text-xl font-semibold">Projects</h2>
                 <ul className="list-disc list-inside">
-                  {user.projects.map((project: any, index: any) => (
+                  {projects.map((project: any, index: any) => (
                     <li key={index}>{project.name}</li>
                   ))}
                 </ul>
               </div>
-              <div className="mt-4 p-4 border border-gray-300">
+              <div className="mt-4 px-64">
                 <h2 className="text-xl font-semibold">Tasks</h2>
                 <a href={`/${username}/createTask`} className="text-blue-500">Add Task(s)</a>
                 <ul className="list-disc list-inside">
