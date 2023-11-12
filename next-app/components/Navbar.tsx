@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link';
-import { useContext } from 'react';
 
 import { useUserContext } from '@/app/context/store';
 
@@ -21,12 +20,12 @@ export default function Navbar() {
           {username && leader && (
             <>
               <div>
-                <Link href={`/${username}/createProject`}>
+                <Link href={`/${username.replace(' ', '-')}/createProject`}>
                   <button className="text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md">Create Project</button>
                 </Link>
               </div>
               <div>
-                <Link href={`/${username}/dashboard`}>
+                <Link href={`/${username.replace(' ', '-')}/dashboard`}>
                   <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">Dashboard</button>
                 </Link>
               </div>
@@ -38,7 +37,7 @@ export default function Navbar() {
           {username && !leader && (
             <>
               <div>
-                <Link href={`/${username}/dashboard`}>
+                <Link href={`/${username.replace(' ', '-')}/dashboard`}>
                   <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">Dashboard</button>
                 </Link>
               </div>

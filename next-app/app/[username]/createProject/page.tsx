@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { useUserContext } from '../../context/store';
+import { useRouter } from 'next/navigation';
+import { set } from 'mongoose';
 
 function CreateProjectForm() {
     const [members, setMembers] = useState([]);
@@ -12,15 +14,37 @@ function CreateProjectForm() {
     const [projectStartDate, setProjectStartDate] = useState('');
     const [projectDueDate, setProjectDueDate] = useState('');
 
+    // for error handling
+    const [alreadyExists, setAlreadyExists] = useState(false);
+
+    // for redirecting to the dashboard
+    const [redirect, setRedirect] = useState(false);
+
+    // get the current pathname
     const pathname = usePathname();
 
+    // get the user from the context
     let { user, username, leader } = useUserContext();
 
+    // get the current username from the pathname
     const currUsername = pathname?.split('/')[1].replace('-', ' ');
 
+    // if the currUsername changes we need to update the user, that is we do not provide access to the page
     useEffect(() => {
         user = null;
     }, [currUsername]);
+
+    // redirect to the dashboard
+    // @ts-ignore
+    const slug = username?.replace(' ', '-');
+
+    // route to dashboard if user is logged in
+    const router = useRouter();
+    useEffect(() => {
+        if (user) {
+            router.push(`/${slug}/dashboard`);
+        }
+    }, [redirect]);
 
     const handleAddMember = (event: any) => {
         if (event.key === 'Enter' || event.key === ',') {
@@ -34,18 +58,55 @@ function CreateProjectForm() {
         }
     };
 
-    const handleFormSubmit = (event: any) => {
+    const handleRemoveMember = (event: any) => {
+        // will take the text content of the parent node of the delete button
+        const member = event.target.parentNode.textContent;
+
+        // filter the members array to remove the member that was clicked
+        const newMembers = members.filter((m) => m !== member);
+        setMembers(newMembers);
+    }
+
+    const handleFormSubmit = async (event: any) => {
         event.preventDefault();
 
         const projectMembers = members.join(',');
 
+        const query = {
+            email: user.email,
+            projectName,
+            projectDescription,
+            projectStartDate,
+            projectDueDate,
+            projectMembers,
+        }
+
         // You can submit the form data here, e.g., by making an API request using fetch.
+        const response = await fetch("/api/createProject", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(query),
+        });   
+    
+        if (response.status === 200) {
+            // setAlreadyExists(false);
+            console.log('Project created successfully');
+        } else if (response.status === 409) {
+            // setAlreadyExists(true);
+            console.log('Project already exists');
+        } else {
+            console.error('Error creating project');
+        }
 
         console.log('Project Name:', projectName);
         console.log('Project Description:', projectDescription);
         console.log('Project Start Date:', projectStartDate);
         console.log('Project Due Date:', projectDueDate);
         console.log('Project Members:', projectMembers);
+
+        setRedirect(true);
     };
 
     return (
@@ -58,7 +119,14 @@ function CreateProjectForm() {
                 </p>
             )}
 
-            {user && (<form onSubmit={handleFormSubmit} className="mt-4" id="projectForm">
+            {alreadyExists && (
+                <h3 className="text-center mt-4">
+                    Project already exists.
+                </h3>
+                )}
+
+            {user && (
+            <form onSubmit={handleFormSubmit} className="mt-4" id="projectForm">
                 <div className="mb-4">
                     <label className="block">Name:</label>
                     <input
@@ -98,11 +166,12 @@ function CreateProjectForm() {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block">Members:</label>
+                    <label className="block">Member Emails:</label>
                     <div id="memberContainer" className="mb-2">
                         {members.map((member, index) => (
                             <span key={index} className="bg-blue-100 p-1 rounded m-1">
                                 {member}
+                                <img onClick={handleRemoveMember} src="/x.png" alt="delete" className=' w-4 inline' />
                             </span>
                         ))}
                     </div>

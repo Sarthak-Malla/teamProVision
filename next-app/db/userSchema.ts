@@ -7,7 +7,7 @@ export interface Users extends mongoose.Document {
     team_leader: boolean,
     projects: string[],
     tasks: string[]
-}
+};
 
 /* UserSchema will correspond to a collection in your MongoDB database. */
 const UserSchema= new mongoose.Schema<Users>({
@@ -19,6 +19,6 @@ const UserSchema= new mongoose.Schema<Users>({
 
     projects: [{type: mongoose.Schema.Types.ObjectId, ref: 'Project'}],
     tasks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Task'}]
-})
+});
 
-export default mongoose.models.User || mongoose.model<Users>('User', UserSchema)
+export default mongoose.models.User || mongoose.model<Users>('User', UserSchema);
