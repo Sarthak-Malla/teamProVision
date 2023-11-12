@@ -193,7 +193,7 @@ function TaskForm() {
                                 {members.map((member, index) => (
                                     <span key={index} className="bg-secondary text-black p-1 rounded m-1 ">
                                         {member}
-                                        <img onClick={handleRemoveMember} src="/x.png" alt="delete" className=' w-4 inline ml-2' />
+                                        <img onClick={handleRemoveMember} src="/cross.png" alt="delete" className=' w-3 inline ml-2' />
                                     </span>
                                 ))}
                             </div>

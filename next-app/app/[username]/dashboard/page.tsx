@@ -65,7 +65,7 @@ const CreateCard = ({username}: {username: string}) => {
                       bg-primary'>
           <img src='/plus.png' className=" w-[20%]" />
         </div>
-        <p className='flex-grow flex justify-center items-center px-4 text-xl'>Create a new project for your team.</p>
+        <p className='flex-grow flex justify-center items-center px-12 text-xl'>Create a new project for your team.</p>
       </div>
     </Link>
   );
