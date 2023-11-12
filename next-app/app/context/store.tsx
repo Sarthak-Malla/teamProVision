@@ -28,11 +28,7 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
         if (userAuth) {
             const userEmail = userAuth.email;
 
-            const queryObject = {
-                email: userEmail
-            };
-
-            fetch(`/api/getUser?query=${JSON.stringify(queryObject)}`)
+            fetch(`/api/getUser?email=${userEmail}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data) {

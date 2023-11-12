@@ -147,7 +147,7 @@ const Dashboard = () => {
               <div className="my-12 px-64">
                 <h2 className="text-2xl font-semibold mb-8">Existing Projects</h2>
                 <div className='flex flex-wrap gap-[2rem]'>
-                  {projects.map((project: any, index: any) => (
+                  {projects && projects.map((project: any, index: any) => (
                     <ProjectCard project={project} key={index} />
                   ))}
                 </div>
@@ -155,7 +155,7 @@ const Dashboard = () => {
               <div className="my-12 px-64">
                 <h2 className="text-2xl font-semibold mb-8">Existing Tasks</h2>
                 <div className='flex flex-wrap gap-[2rem]'>
-                  {tasks.map((task: any, index: any) => (
+                  {tasks && tasks.map((task: any, index: any) => (
                     <TaskCard task={task} key={index} />
                   ))}
                 </div>
@@ -166,7 +166,7 @@ const Dashboard = () => {
               <div className="my-12 px-64">
                 <h2 className="text-2xl font-semibold mb-6">Projects</h2>
                 <div className='flex flex-wrap gap-[2rem]'>
-                  {projects.map((project: any, index: any) => (
+                  {projects && projects.map((project: any, index: any) => (
                     <ProjectCard project={project} key={index} />
                   ))}
                 </div>
@@ -175,7 +175,7 @@ const Dashboard = () => {
                 <h2 className="text-2xl font-semibold mb-6">Tasks</h2>
                 <div className='flex flex-wrap gap-[2rem]'>
                   <CreateTaskCard username={username} />
-                  {tasks.map((task: any, index: any) => (
+                  {tasks && tasks.map((task: any, index: any) => (
                     <TaskCard task={task} key={index} />
                   ))}
                 </div>

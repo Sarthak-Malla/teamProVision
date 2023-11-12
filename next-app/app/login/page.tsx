@@ -48,12 +48,8 @@ function SignInButton() {
         const user = result.user;
 
         const email = user.email? user.email : '';
-
-        const queryObject = {
-            email
-        };
         
-        const response = await fetch(`api/getUser?query=${JSON.stringify(queryObject)}`);
+        const response = await fetch(`api/getUser?email=${email}`);
         const data = await response.json();
 
         if (data.length === 0) {
