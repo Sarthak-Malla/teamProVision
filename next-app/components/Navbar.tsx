@@ -11,22 +11,30 @@ export default function Navbar() {
   const { user, username, leader } = useUserContext();
 
   return (
-    <nav className="bg-blue-500 p-4">
-      <ul className="flex justify-evenly items-center">
-        <Link href="/">
-          <button className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md">teamProVision</button>
-        </Link>
-        <div className='flex justify-center items-center gap-4'>
+    <nav className="border-b-[0.5px] border-b-quaternary shadow-md h-[5rem]
+                    flex justify-between items-center
+                    px-64">
+      <Link href="/">
+        <h1 className='font-robotoslab text-4xl hover:border-b-2 hover:border-purple'>
+          TeamProVision
+        </h1>
+      </Link>
+      <ul className="flex justify-between items-center text-xl">
+        <div className='flex items-center justify-end gap-[3rem]'>
           {username && leader && (
             <>
               <div>
                 <Link href={`/${username.replace(' ', '-')}/createProject`}>
-                  <button className="text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md">Create Project</button>
+                  <h3 className='hover:border-b-2 hover:border-purple'>
+                    Create Project
+                  </h3>
                 </Link>
               </div>
               <div>
                 <Link href={`/${username.replace(' ', '-')}/dashboard`}>
-                  <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">Dashboard</button>
+                  <h3 className='hover:border-b-2 hover:border-purple'>
+                    Dashboard
+                  </h3>
                 </Link>
               </div>
               <div>
@@ -38,7 +46,10 @@ export default function Navbar() {
             <>
               <div>
                 <Link href={`/${username.replace(' ', '-')}/dashboard`}>
-                  <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">Dashboard</button>
+                  <h3 className='p-4
+                                    hover:bg-tertiary hover:text-black'>
+                    Dashboard
+                  </h3>
                 </Link>
               </div>
               <div>
@@ -48,7 +59,9 @@ export default function Navbar() {
           )}
           {!username && (
             <Link href="/login">
-              <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">Log in</button>
+              <button className="hover:border-b-2 hover:border-purple">
+                Log in
+              </button>
             </Link>
           )}
         </div>

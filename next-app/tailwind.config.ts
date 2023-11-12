@@ -14,6 +14,24 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
+    fontFamily: {
+      cabin: ['Cabin', 'sans-serif'],
+      'hind-siliguri': ['Hind Siliguri', 'sans-serif'],
+      robotoslab: ['Roboto Slab', 'serif'],
+    },
+    colors: {
+      primary: "#F3EEEA",
+      secondary: "#EBE3D5",
+      tertiary: "#B0A695",
+      quaternary: "#776B5D",
+      black: "#000000",
+      purple: "#7743DB",
+      lightpurple: "#C3ACD0"
+    },
+
+    backgroundImage: {
+      'hero-img': "url('/hero.jpg')",
+    },
   },
   plugins: [],
 }
