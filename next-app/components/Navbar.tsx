@@ -4,7 +4,24 @@ import Link from 'next/link';
 
 import { useUserContext } from '@/app/context/store';
 
-import { SignOutButton } from '../app/login/page';
+import { auth } from '@/config/firebaseConfig'
+import { signOut } from "firebase/auth";
+
+function SignOutButton() {
+  return (
+    <button className="hover:border-b-2 hover:border-b-purple" onClick={() => {
+      signOut(auth).then(() => {
+        console.log('Signed out');
+
+        window.location.href = '/';
+      }).catch((error) => {
+        console.log(error);
+      });
+    }}>
+      Sign out
+    </button>
+  )
+}
 
 // Top navbar
 export default function Navbar() {

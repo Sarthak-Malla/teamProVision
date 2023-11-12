@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-import { useUserContext } from '../../context/store';
+import { useUserContext } from '@/app/context/store';
 
 // set-up a mock user
 const mockUser = {

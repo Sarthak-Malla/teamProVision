@@ -2,15 +2,28 @@
 
 import { useState } from 'react';
 
-import { useUserContext } from '../context/store';
+import { useUserContext } from '@/app/context/store';
 
-import { SignOutButton } from '../login/page';
-
-
-import { auth, provider } from '../../config/firebaseConfig'
+import { auth, provider } from '@/config/firebaseConfig'
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
-export function SignInButton({ leader }: { leader: boolean }) {
+function SignOutButton() {
+    return (
+      <button className="hover:border-b-2 hover:border-b-purple" onClick={() => {
+        signOut(auth).then(() => {
+          console.log('Signed out');
+  
+          window.location.href = '/';
+        }).catch((error) => {
+          console.log(error);
+        });
+      }}>
+        Sign out
+      </button>
+    )
+  }
+
+function SignInButton({ leader }: { leader: boolean }) {
 
     const signInWithGoogle = async () => {
 

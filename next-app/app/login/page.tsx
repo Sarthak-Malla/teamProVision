@@ -1,6 +1,6 @@
 "use client";
 
-import { auth, provider } from '../../config/firebaseConfig'
+import { auth, provider } from '@/config/firebaseConfig'
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 import { useUserContext } from '@/app/context/store';
@@ -23,7 +23,7 @@ export default function Login() {
   )
 }
 
-export function SignOutButton() {
+function SignOutButton() {
   return (
     <button className="hover:border-b-2 hover:border-b-purple" onClick={() => {
       signOut(auth).then(() => {
@@ -39,7 +39,7 @@ export function SignOutButton() {
   )
 }
 
-export function SignInButton() {
+function SignInButton() {
 
   const signInWithGoogle = async () => {
 

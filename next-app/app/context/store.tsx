@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 
-import { auth } from '../../config/firebaseConfig';
+import { auth } from '@/config/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 type DataType = {
