@@ -46,8 +46,7 @@ export default function Navbar() {
             <>
               <div>
                 <Link href={`/${username.replace(' ', '-')}/dashboard`}>
-                  <h3 className='p-4
-                                    hover:bg-tertiary hover:text-black'>
+                  <h3 className='hover:border-b-2 hover:border-purple'>
                     Dashboard
                   </h3>
                 </Link>

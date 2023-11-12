@@ -6,15 +6,14 @@ import { usePathname } from 'next/navigation';
 import { useUserContext } from '../../context/store';
 import { useRouter } from 'next/navigation';
 
-function CreateProjectForm() {
+function TaskForm() {
+    const [taskName, setTaskName] = useState('');
+    const [taskDescription, setTaskDescription] = useState('');
+    const [taskStartDate, setTaskStartDate] = useState('');
+    const [taskDueDate, setTaskDueDate] = useState('');
+    const [taskStatus, setTaskStatus] = useState('Not Started');
     const [members, setMembers] = useState([]);
-    const [projectName, setProjectName] = useState('');
-    const [projectDescription, setProjectDescription] = useState('');
-    const [projectStartDate, setProjectStartDate] = useState('');
-    const [projectDueDate, setProjectDueDate] = useState('');
-
-    // for error handling
-    const [alreadyExists, setAlreadyExists] = useState(false);
+    const [taskProject, setTaskProject] = useState('');
 
     // for redirecting to the dashboard
     const [redirect, setRedirect] = useState(false);
@@ -45,6 +44,21 @@ function CreateProjectForm() {
         }
     }, [redirect]);
 
+    const [projects, setProjects] = useState([] as any);
+    let [count, setCount] = useState(0);
+    if (user && !count) {
+        // only fetch projects once
+        setCount(1);
+    
+        fetch(`/api/getProjects?email=${user?.email}`)
+          .then((res) => res.json())
+          .then((data) => {
+            setProjects(data);
+          });
+      }
+
+
+
     const handleAddMember = (event: any) => {
         if (event.key === 'Enter' || event.key === ',') {
             event.preventDefault();
@@ -73,15 +87,17 @@ function CreateProjectForm() {
 
         const query = {
             email: user.email,
-            projectName,
-            projectDescription,
-            projectStartDate,
-            projectDueDate,
+            taskName,
+            taskDescription,
+            taskStartDate,
+            taskDueDate,
+            taskStatus,
+            taskProject,
             projectMembers,
         }
 
         // You can submit the form data here, e.g., by making an API request using fetch.
-        const response = await fetch("/api/createProject", {
+        const response = await fetch("/api/createTask", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,86 +107,88 @@ function CreateProjectForm() {
 
         if (response.status === 200) {
             // setAlreadyExists(false);
-            console.log('Project created successfully');
+            console.log('Task created successfully');
         } else if (response.status === 409) {
             // setAlreadyExists(true);
-            console.log('Project already exists');
+            console.log('Task already exists');
         } else {
-            console.error('Error creating project');
+            console.error('Error creating task');
         }
 
-        console.log('Project Name:', projectName);
-        console.log('Project Description:', projectDescription);
-        console.log('Project Start Date:', projectStartDate);
-        console.log('Project Due Date:', projectDueDate);
-        console.log('Project Members:', projectMembers);
+        console.log(query);
 
         setRedirect(true);
     };
 
     return (
         <div className='flex flex-col justify-start items-center min-h-screen'>
-            <h1 className="m-8 text-4xl">Create Your Project</h1>
-
+            <h1 className="m-8 text-4xl">Create Your Task</h1>
+    
             {!user && (
                 <p className="">
                     Please <a href="/login" className="">log in</a> to view your dashboard.
                 </p>
             )}
-
-            {alreadyExists && (
-                <h3 className="">
-                    Project already exists.
-                </h3>
-            )}
-
+    
             {user && (
                 <div className='p-4 w-[40%] bg-primary border mx-auto'>
-                    <form onSubmit={handleFormSubmit} className="" id="projectForm">
+                    <form onSubmit={handleFormSubmit} className="" id="taskForm">
                         <div className="p-2">
                             <label className="block">Name:</label>
                             <input
                                 type="text"
-                                name="projectName"
+                                name="taskName"
                                 className='w-full shadow-sm border rounded p-1'
                                 required
-                                onChange={(e) => setProjectName(e.target.value)}
+                                onChange={(e) => setTaskName(e.target.value)}
                             />
                         </div>
-
+    
                         <div className="p-2">
                             <label className="block">Description:</label>
                             <textarea
-                                name="projectDescription"
-                                required
+                                name="taskDescription"
                                 className='w-full shadow-sm border rounded p-1'
-                                onChange={(e) => setProjectDescription(e.target.value)}
+                                onChange={(e) => setTaskDescription(e.target.value)}
                             ></textarea>
                         </div>
-
+    
                         <div className="p-2">
                             <label className="block">Started Date:</label>
                             <input
                                 type="date"
-                                name="projectStartDate"
+                                name="taskStartDate"
                                 className='w-full shadow-sm border rounded p-1'
                                 required
-                                onChange={(e) => setProjectStartDate(e.target.value)}
+                                onChange={(e) => setTaskStartDate(e.target.value)}
                             />
                         </div>
-
+    
                         <div className="p-2">
                             <label className="block">Due Date:</label>
                             <input
                                 type="date"
-                                name="projectDueDate"
+                                name="taskDueDate"
                                 className='w-full shadow-sm border rounded p-1'
-                                onChange={(e) => setProjectDueDate(e.target.value)}
+                                onChange={(e) => setTaskDueDate(e.target.value)}
                             />
                         </div>
-
+    
                         <div className="p-2">
-                            <label className="block">Member Emails:</label>
+                            <label className="block">Status:</label>
+                            <select
+                                name="taskStatus"
+                                className='w-full shadow-sm border rounded p-1'
+                                onChange={(e) => setTaskStatus(e.target.value)}
+                            >
+                                <option value="Not Started">Not Started</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+    
+                        <div className="p-2">
+                            <label className="block">Members:</label>
                             <div id="memberContainer" className="mb-2 flex flex-wrap">
                                 {members.map((member, index) => (
                                     <span key={index} className="bg-secondary text-black p-1 rounded m-1 ">
@@ -181,19 +199,34 @@ function CreateProjectForm() {
                             </div>
                             <input
                                 type="text"
-                                name="projectMembers"
+                                name="taskMembers"
                                 placeholder="Add members"
                                 className='w-full shadow-sm border rounded p-1'
                                 onKeyDown={handleAddMember}
                             />
                         </div>
-                        
+    
+                        <div className="p-2">
+                            <label className="block">Project (Optional):</label>
+                            <select
+                                name="taskProject"
+                                className='w-full shadow-sm border rounded p-1'
+                                onChange={(e) => setTaskProject(e.target.value)}
+                            >
+                                <option value="">None</option>
+                                {/* Add options dynamically based on projects */}
+                                {projects.map((project: any) => (
+                                    <option key={project.projectID} value={project.projectID}>{project.name}</option>
+                                ))}
+                            </select>
+                        </div>
+    
                         <div className='flex justify-center items-center p-2'>
                             <button
                                 type="submit"
                                 className="bg-purple text-primary px-8 py-2 hover:bg-tertiary hover:text-white "
                             >
-                                Create
+                                Create Task
                             </button>
                         </div>
                     </form>
@@ -201,6 +234,8 @@ function CreateProjectForm() {
             )}
         </div>
     );
+    
 }
 
-export default CreateProjectForm;
+// Export the Next.js component
+export default TaskForm;

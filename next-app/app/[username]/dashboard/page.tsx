@@ -14,6 +14,30 @@ const mockUser = {
   tasks: [],
 };
 
+const TaskCard = ({ task }: any) => {
+  const name = task.name;
+  const startDate = new Date(task.startedAt).toLocaleDateString();
+  const description = task.description;
+  const status = task.status;
+
+  return (
+    <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
+                    p-8
+                    flex flex-col justify-between
+                    hover:bg-purple hover:text-primary hover:animate-pulse'>
+      <div className=''>
+        <h2 className="text-2xl font-semibold 
+                        ">{name}</h2>
+        <p className='text-sm text-tertiary mb-2'>Start Date: {startDate}</p>
+      </div>
+      <p className='flex-grow flex justify-center items-start'>{description}</p>
+      <span className='inline-block'>
+        status: {status}
+      </span>
+    </div>
+  );
+}
+
 const ProjectCard = ({ project }: any) => {
   const name = project.name;
   const description = project.description.slice(0, 150) + '...';
@@ -25,7 +49,6 @@ const ProjectCard = ({ project }: any) => {
                     flex flex-col
                     hover:bg-purple hover:text-primary hover:animate-pulse'>
       <h2 className="text-2xl font-semibold flex-grow
-                      flex justify-center items-center
                       ">{name}</h2>
       <p className='text-sm text-tertiary mb-2'>Start Date: {startDate}</p>
       <p className='flex-grow flex justify-center items-start'>{description}</p>
@@ -35,14 +58,29 @@ const ProjectCard = ({ project }: any) => {
 
 const CreateCard = ({username}: {username: string}) => {
   return (
-    <Link href={`/${username.replace(' ', '-')}/createProject`} className='inline-block w-[12rem]'>
-      <div className='w-[12rem] h-[15rem] border border-quaternary shadow-lg
+    <Link href={`/${username.replace(' ', '-')}/createProject`} className='inline-block w-[20rem]'>
+      <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
                         flex flex-col items-center hover:animate-pulse'>
         <div className='flex-grow flex justify-center items-center
                       bg-primary'>
-          <img src='/plus.png' className=" w-[50%]" />
+          <img src='/plus.png' className=" w-[20%]" />
         </div>
-        <p className='flex-grow flex justify-center items-center px-4'>Create a new project for your team.</p>
+        <p className='flex-grow flex justify-center items-center px-4 text-xl'>Create a new project for your team.</p>
+      </div>
+    </Link>
+  );
+}
+
+const CreateTaskCard = ({username}: {username: string}) => {
+  return (
+    <Link href={`/${username.replace(' ', '-')}/createTask`} className='inline-block w-[20rem]'>
+      <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
+                        flex flex-col items-center hover:animate-pulse'>
+        <div className='flex-grow flex justify-center items-center
+                      bg-primary'>
+          <img src='/plus.png' className=" w-[20%]" />
+        </div>
+        <p className='flex-grow flex justify-center items-center px-4 text-xl'>Add a new task.</p>
       </div>
     </Link>
   );
@@ -55,6 +93,8 @@ const Dashboard = () => {
 
   const [projects, setProjects] = useState([] as any);
   let [count, setCount] = useState(0);
+
+  const [tasks, setTasks] = useState([] as any);
 
   const currUsername = pathname?.split('/')[1].replace('-', ' ');
 
@@ -70,6 +110,13 @@ const Dashboard = () => {
       .then((res) => res.json())
       .then((data) => {
         setProjects(data);
+      });
+
+    fetch(`/api/getTasks?email=${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setTasks(data);
       });
   }
 
@@ -105,25 +152,33 @@ const Dashboard = () => {
                   ))}
                 </div>
               </div>
+              <div className="my-12 px-64">
+                <h2 className="text-2xl font-semibold mb-8">Existing Tasks</h2>
+                <div className='flex flex-wrap gap-[2rem]'>
+                  {tasks.map((task: any, index: any) => (
+                    <TaskCard task={task} key={index} />
+                  ))}
+                </div>
+              </div>
             </>
           ) : (
             <>
-              <div className="mx-4 px-64">
-                <h2 className="text-xl font-semibold">Projects</h2>
-                <ul className="list-disc list-inside">
+              <div className="my-12 px-64">
+                <h2 className="text-2xl font-semibold mb-6">Projects</h2>
+                <div className='flex flex-wrap gap-[2rem]'>
                   {projects.map((project: any, index: any) => (
-                    <li key={index}>{project.name}</li>
+                    <ProjectCard project={project} key={index} />
                   ))}
-                </ul>
+                </div>
               </div>
-              <div className="mt-4 px-64">
-                <h2 className="text-xl font-semibold">Tasks</h2>
-                <a href={`/${username}/createTask`} className="text-blue-500">Add Task(s)</a>
-                <ul className="list-disc list-inside">
-                  {user.tasks.map((task: any, index: any) => (
-                    <li key={index}>{task.name}</li>
+              <div className="my-12 px-64">
+                <h2 className="text-2xl font-semibold mb-6">Tasks</h2>
+                <div className='flex flex-wrap gap-[2rem]'>
+                  <CreateTaskCard username={username} />
+                  {tasks.map((task: any, index: any) => (
+                    <TaskCard task={task} key={index} />
                   ))}
-                </ul>
+                </div>
               </div>
             </>
           )}
