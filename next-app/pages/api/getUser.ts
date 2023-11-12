@@ -5,12 +5,17 @@ export default async function handler(req: any, res: any) {
   if (req.method === 'GET') {
     try {
       await dbConnect(); // Connect to the MongoDB database
+      console.log("Connected to the database");
 
       // Get the query parameters from the request
       const { email } = req.query;
 
+      console.log("Query parameters", email)
+
       // Use the query object to fetch user data
-      const users = await User.find({ email: email });
+      const users = await User.findOne({ email: email });
+
+      console.log("Found Users", users);
 
       return res.status(200).json(users);
     } catch (error) {

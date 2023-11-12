@@ -1,8 +1,6 @@
 import dbConnect from '../../db/dbConnect';
 import User from '../../db/userSchema';
 
-import { randomUUID } from 'crypto';
-
 export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     console.log('Sign In request received');
