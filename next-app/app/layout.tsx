@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
+import config from '@/config/config';
+
 import Navbar from '@/components/Navbar';
 
 import { UserContextProvider } from './context/store';
@@ -9,8 +11,8 @@ import { UserContextProvider } from './context/store';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'TeamProVision',
-  description: 'Make Projects Simpler!',
+  title: config.title,
+  description: config.description,
 }
 
 export default function RootLayout({
