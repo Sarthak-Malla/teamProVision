@@ -58,11 +58,18 @@ export default function Navbar() {
             </>
           )}
           {!username && (
-            <Link href="/login">
-              <button className="hover:border-b-2 hover:border-purple">
-                Log in
-              </button>
-            </Link>
+            <>
+              <Link href="/login">
+                <button className="hover:border-b-2 hover:border-purple">
+                  Log in
+                </button>
+              </Link>
+              <Link href="/signup">
+                <button className="hover:border-b-2 hover:border-purple">
+                  Sign up
+                </button>
+              </Link>
+            </>
           )}
         </div>
 

@@ -14,7 +14,7 @@ type DataType = {
 const UserContext = createContext<DataType>({
     user: null,
     username: "",
-    leader: false
+    leader: true
 });
 
 export const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -23,6 +23,8 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
     const [leader, setLeader] = useState(false);
 
     const [userAuth, loading, error] = useAuthState(auth);
+
+    console.log(user);
 
     useEffect(() => {
         if (userAuth) {

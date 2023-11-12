@@ -1,26 +1,28 @@
 "use client";
 
-import { useEffect } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { auth, provider } from '../../config/firebaseConfig'
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 import { useUserContext } from '@/app/context/store';
+import { sign } from 'crypto';
 
 export default function Login() {
   const { user, username, leader } = useUserContext();
+  const [clicked, setClicked] = useState(false);
 
   // @ts-ignore
   const slug = username?.replace(' ', '-');
 
   // route to dashboard if user is logged in
-  const router = useRouter();
-  useEffect(() => {
-    if (user) {
-      router.push(`/${slug}/dashboard`);
-    }
-  }, [user]);
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push(`/${slug}/dashboard`);
+  //   }
+  // }, [user]);
 
   return (
     <main className="flex justify-center items-center h-[90vh]">
@@ -34,7 +36,7 @@ export default function Login() {
 
 export function SignOutButton() {
   return (
-    <button className="bg-red-500 text-white py-2 px-4 rounded-lg" onClick={() => {
+    <button className="hover:border-b-2 hover:border-b-purple" onClick={() => {
       signOut(auth).then(() => {
         console.log('Signed out');
 
@@ -48,35 +50,34 @@ export function SignOutButton() {
   )
 }
 
-function SignInButton() {
+export function SignInButton() {
+
   const signInWithGoogle = async () => {
-    const leader = document.getElementById('leader') as HTMLInputElement;
-    const isLeader = leader.checked;
 
     signInWithPopup(auth, provider)
       .then( async (result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
         const user = result.user;
 
         const email = user.email? user.email : '';
-        const name = user.displayName? user.displayName : '';
 
-        const response = await fetch(`api/createUser?query=${isLeader}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, name }),
-        });
-  
-        if (response.status === 200) {
-          console.log('User created successfully');
-        } else if (response.status === 409) {
-          console.log('User already exists');
+        const queryObject = {
+            email
+        };
+        
+        const response = await fetch(`api/getUser?query=${JSON.stringify(queryObject)}`);
+        const data = await response.json();
+
+        if (data.length === 0) {
+          signOut(auth).then(() => {
+            console.log('Signed out');
+          }).catch((error) => {
+            console.log(error);
+          });
         } else {
-          console.error('Error creating user');
+          const slug = data[0].name.replace(' ', '-');
+          window.location.href = `/${slug}/dashboard`;
         }
+
       }).catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -88,17 +89,14 @@ function SignInButton() {
   }
 
   return (
-    <div className="text-center">
-      <form className="mb-4">
-        <label htmlFor="leader" className="block">Are you a leader?</label>
-        <input type="checkbox" name="leader" id="leader" className="mr-2" />
-      </form>
+    <div id="sign-in-div" className="text-center">
 
       <button
         onClick={signInWithGoogle}
-        className="bg-white text-gray-700 border border-gray-300 rounded-lg p-2 flex items-center space-x-2 hover:bg-gray-100 focus:outline-none"
+        className="bg-white text-gray-700 border border-gray-300 rounded-lg p-2 flex items-center space-x-2 hover:bg-gray-100 focus:outline-none
+                    hover:bg-primary "
       >
-        <img className="w-6" src="google.png" alt="Google Icon" />
+        <img className="w-6 mr-4" src="google.png" alt="Google Icon" />
         Sign in with Google
       </button>
     </div>
