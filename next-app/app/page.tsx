@@ -46,11 +46,9 @@ export default function Home() {
       <main className="px-64">
         <header className="mx-auto my-8 flex">
           <div id="hero-image-container"
-                className="flex" onMouseEnter={() => setShowOverlay(true)} onMouseLeave={() => setShowOverlay(false)}>
+                className="">
             <img className="" src="/hero.jpg" alt="hero-image" />
-            {/* <div className={`absolute inset-0 bg-black bg-opacity-50 text-white flex flex-col items-center justify-end opacity-0 transition-opacity ${showOverlay ? 'opacity-100' : ''}`}>
-              <a href="https://www.vecteezy.com/" className="mb-2">Photo by: www.vecteezy.com</a>
-            </div> */}
+            <p className="text-sm">Image by: <a className="" href="vecteezy.com">vecteezy.com</a></p>
           </div>
           <div className="flex flex-shrink flex-col justify-center items-center text-center
                           p-12">
