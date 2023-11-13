@@ -6,10 +6,10 @@ import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { useUserContext } from '@/app/context/store';
 
 export default function Login() {
-  const { user, username, leader } = useUserContext();
+  const { user } = useUserContext();
 
   if (user) {
-    const slug = username.replace(' ', '-');
+    const slug = user.username?.replace(' ', '-');
     window.location.href = `/${slug}/dashboard`;
   }
 

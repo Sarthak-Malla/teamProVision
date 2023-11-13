@@ -32,9 +32,9 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
-                        setUser(data[0]);
-                        setUsername(data[0].username);
-                        setLeader(data[0].team_leader);
+                        setUser(data);
+                        setUsername(data.username);
+                        setLeader(data.team_leader);
                     } else {
                         setUser(null);
                         setUsername("");

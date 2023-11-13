@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 
-import { useUserContext } from '@/app/context/store';
+import { useUserContext } from '../app/context/store';
 
-import { auth } from '@/config/firebaseConfig'
+import { auth } from '../config/firebaseConfig'
 import { signOut } from "firebase/auth";
 
 function SignOutButton() {
