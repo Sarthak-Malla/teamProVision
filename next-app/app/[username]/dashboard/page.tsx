@@ -17,7 +17,7 @@ const mockUser = {
 const TaskCard = ({ task }: any) => {
   const name = task.name;
   const startDate = new Date(task.startedAt).toLocaleDateString();
-  const description = task.description;
+  const description = task.description.length > 150 ? task.description.slice(0, 150) + '...' : task.description;
   const status = task.status;
 
   return (
