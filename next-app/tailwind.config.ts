@@ -26,7 +26,10 @@ const config: Config = {
       quaternary: "#776B5D",
       black: "#000000",
       purple: "#7743DB",
-      lightpurple: "#C3ACD0"
+      lightpurple: "#C3ACD0",
+      red: "#FFB8B8",
+      yellow: "#FFF9C2",
+      green: "#C2FFC9",
     },
 
     backgroundImage: {

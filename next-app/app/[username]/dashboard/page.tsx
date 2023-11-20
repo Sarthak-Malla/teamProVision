@@ -8,12 +8,12 @@ import { useUserContext } from '@/app/context/store';
 import TaskCard from '@/components/TaskCard';
 
 // set-up a mock user
-const mockUser = {
-  username: 'sampleuser',
-  team_leader: false,
-  projects: [],
-  tasks: [],
-};
+// const mockUser = {
+//   username: 'sampleuser',
+//   team_leader: false,
+//   projects: [],
+//   tasks: [],
+// };
 
 const ProjectCard = ({ project }: any) => {
   const name = project.name;
@@ -21,7 +21,7 @@ const ProjectCard = ({ project }: any) => {
   const startDate = new Date(project.startedAt).toLocaleDateString();
 
   return (
-    <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
+    <div className='w-[20rem] min-h-[20rem] border border-quaternary shadow-lg
                     p-8
                     flex flex-col
                     hover:bg-purple hover:text-primary '>
@@ -36,7 +36,7 @@ const ProjectCard = ({ project }: any) => {
 const CreateCard = ({username}: {username: string}) => {
   return (
     <Link href={`/${username.replace(' ', '-')}/createProject`} className='inline-block w-[20rem]'>
-      <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
+      <div className='w-[20rem] min-h-[20rem] border border-quaternary shadow-lg
                         flex flex-col items-center '>
         <div className='flex-grow flex justify-center items-center
                       bg-primary'>
@@ -51,7 +51,7 @@ const CreateCard = ({username}: {username: string}) => {
 const CreateTaskCard = ({username}: {username: string}) => {
   return (
     <Link href={`/${username.replace(' ', '-')}/createTask`} className='inline-block w-[20rem]'>
-      <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
+      <div className='w-[20rem] min-h-[20rem] border border-quaternary shadow-lg
                         flex flex-col items-center '>
         <div className='flex-grow flex justify-center items-center
                       bg-primary'>
@@ -92,7 +92,6 @@ const Dashboard = () => {
     fetch(`/api/getTasks?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setTasks(data);
       });
   }
@@ -139,7 +138,7 @@ const Dashboard = () => {
                 <h2 className="text-2xl font-semibold mb-8">Existing Tasks</h2>
                 <div className='flex flex-wrap gap-[2rem]'>
                   {tasks && tasks.map((task: any, index: any) => (
-                    <TaskCard task={task} key={index} />
+                    <TaskCard task={task} projects={projects} key={index} />
                   ))}
                 </div>
               </div>
