@@ -23,48 +23,40 @@ export default async function handler(req: any, res: any) {
             const members = projectMembers.split(',').map((member: string) => member.trim());
             const memberIDs = await User.find({ email: { $in: members } });
 
-            const foundProject = await Project.findOne({ name });
+            const newProject = new Project({
+                projectID: randomUUID(),
+                user,
+                name,
+                description,
+                creator: user,
+                startedAt: new Date(startDate),
+                deadline: new Date(dueDate),
+                members: [user, ...memberIDs],
+                tasks: [],
+                leader: user,
+            });
 
-            if (!foundProject) {
-                const newProject = new Project({
-                    projectID: randomUUID(),
-                    user,
-                    name,
-                    description,
-                    creator: user,
-                    startedAt: new Date(startDate),
-                    deadline: new Date(dueDate),
-                    members: [user, ...memberIDs],
-                    tasks: [],
-                    leader: user,
+            const savedProject = await newProject.save();
+
+            if (savedProject) {
+                // TODO: Find the members and add the project to their projects array
+                memberIDs.map(async (member) => {
+                    const foundUser = await User.findOne({ userID: member.userID });
+                    foundUser.projects.push(savedProject);
+                    await foundUser.save();
                 });
 
-                const savedProject = await newProject.save();
-
-                if (savedProject) {
-                    // TODO: Find the members and add the project to their projects array
-                    memberIDs.map(async (member) => {
-                        const foundUser = await User.findOne({ userID: member.userID });
-                        foundUser.projects.push(savedProject);
-                        await foundUser.save();
-                    });
-
-                    // TODO: Add the project to the user's projects array in the database
-                    user.projects.push(savedProject);
-                    await user.save();
-                    
-                    return res.status(200).json({ message: 'Project created successfully' });
-                } else {
-                    return res.status(500).json({ message: 'Project not saved' });
-                }
+                // TODO: Add the project to the user's projects array in the database
+                user.projects.push(savedProject);
+                await user.save();
+                
+                return res.status(200).json({ message: 'Project created successfully' });
             } else {
-                return res.status(409).json({ message: 'Project already exists' });
+                return res.status(500).json({ message: 'Project not saved' });
             }
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Server error' });
+            console.log(error);
+            return res.status(500).json({ message: 'Internal server error' });
         }
-    } else {
-        return res.status(405).end(); // Method Not Allowed
     }
 }
