@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { useUserContext } from '@/app/context/store';
+import TaskCard from '@/components/TaskCard';
 
 // set-up a mock user
 const mockUser = {
@@ -13,30 +14,6 @@ const mockUser = {
   projects: [],
   tasks: [],
 };
-
-const TaskCard = ({ task }: any) => {
-  const name = task.name;
-  const startDate = new Date(task.startedAt).toLocaleDateString();
-  const description = task.description.length > 150 ? task.description.slice(0, 150) + '...' : task.description;
-  const status = task.status;
-
-  return (
-    <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
-                    p-8
-                    flex flex-col justify-between
-                    hover:bg-purple hover:text-primary hover:animate-pulse'>
-      <div className=''>
-        <h2 className="text-2xl font-semibold 
-                        ">{name}</h2>
-        <p className='text-sm text-tertiary mb-2'>Start Date: {startDate}</p>
-      </div>
-      <p className='flex-grow flex justify-center items-start'>{description}</p>
-      <span className='inline-block'>
-        status: {status}
-      </span>
-    </div>
-  );
-}
 
 const ProjectCard = ({ project }: any) => {
   const name = project.name;
@@ -47,7 +24,7 @@ const ProjectCard = ({ project }: any) => {
     <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
                     p-8
                     flex flex-col
-                    hover:bg-purple hover:text-primary hover:animate-pulse'>
+                    hover:bg-purple hover:text-primary '>
       <h2 className="text-2xl font-semibold flex-grow
                       ">{name}</h2>
       <p className='text-sm text-tertiary mb-2'>Start Date: {startDate}</p>
@@ -60,7 +37,7 @@ const CreateCard = ({username}: {username: string}) => {
   return (
     <Link href={`/${username.replace(' ', '-')}/createProject`} className='inline-block w-[20rem]'>
       <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
-                        flex flex-col items-center hover:animate-pulse'>
+                        flex flex-col items-center '>
         <div className='flex-grow flex justify-center items-center
                       bg-primary'>
           <img src='/plus.png' className=" w-[20%]" />
@@ -75,7 +52,7 @@ const CreateTaskCard = ({username}: {username: string}) => {
   return (
     <Link href={`/${username.replace(' ', '-')}/createTask`} className='inline-block w-[20rem]'>
       <div className='w-[20rem] h-[20rem] border border-quaternary shadow-lg
-                        flex flex-col items-center hover:animate-pulse'>
+                        flex flex-col items-center '>
         <div className='flex-grow flex justify-center items-center
                       bg-primary'>
           <img src='/plus.png' className=" w-[20%]" />
@@ -140,9 +117,15 @@ const Dashboard = () => {
 
           {leader ? (
             <>
-              <div className="my-12 px-64">
-                <h2 className="text-2xl font-semibold mb-8">Create Project</h2>
-                <CreateCard username={username} />
+              <div className="my-12 px-64 flex gap-8">
+                <div>
+                  <h2 className="text-2xl font-semibold mb-8">Create Project</h2>
+                  <CreateCard username={username} />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-semibold mb-8">Create Task</h2>
+                  <CreateTaskCard username={username} />
+                </div>
               </div>
               <div className="my-12 px-64">
                 <h2 className="text-2xl font-semibold mb-8">Existing Projects</h2>
