@@ -158,7 +158,7 @@ const Dashboard = () => {
                 <div className='flex flex-wrap gap-[2rem]'>
                   <CreateTaskCard username={username} />
                   {tasks && tasks.map((task: any, index: any) => (
-                    <TaskCard task={task} key={index} />
+                    <TaskCard task={task} projects={projects} key={index} />
                   ))}
                 </div>
               </div>
