@@ -31,7 +31,7 @@ const TaskCard = ({ task, projects }: any) => {
             }
         }
 
-        if (count.current < 2) {
+        if (count.current < 1) {
             count.current++;
             return;
         }
