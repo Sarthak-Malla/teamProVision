@@ -6,7 +6,6 @@ import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { useUserContext } from '@/app/context/store';
 
 import { useState } from 'react';
-import { set } from 'mongoose';
 
 export default function Login() {
   const { user } = useUserContext();

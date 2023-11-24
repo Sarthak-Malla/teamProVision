@@ -6,22 +6,40 @@ import { usePathname } from 'next/navigation';
 
 import { useUserContext } from '@/app/context/store';
 import TaskCard from '@/components/TaskCard';
+import ProjectDetailsOverlay from '@/components/ProjectDetailsOverlay';
 
 const ProjectCard = ({ project }: any) => {
   const name = project.name;
   const description = project.description.slice(0, 150) + '...';
   const startDate = new Date(project.startedAt).toLocaleDateString();
 
+  const [showDetails, setShowDetails] = useState(false);
+
+  const handleCardClick = () => {
+    setShowDetails(true);
+  };
+
+  const handleCloseDetails = () => {
+    setShowDetails(false);
+  };
+
   return (
-    <div className='w-[20rem] min-h-[20rem] border border-quaternary shadow-lg
-                    p-8
-                    flex flex-col
-                    hover:bg-purple hover:text-primary '>
-      <h2 className="text-2xl font-semibold flex-grow
-                      ">{name}</h2>
-      <p className='text-sm text-tertiary mb-2'>Start Date: {startDate}</p>
-      <p className='flex-grow flex justify-center items-start'>{description}</p>
-    </div>
+    <>
+      <div className='w-[20rem] min-h-[20rem] border border-quaternary shadow-lg
+                      p-8
+                      flex flex-col
+                      hover:bg-purple hover:text-primary hover:cursor-pointer'
+            onClick={handleCardClick}>
+        <h2 className="text-2xl font-semibold flex-grow
+                        ">{name}</h2>
+        <p className='text-sm text-tertiary mb-2'>Start Date: {startDate}</p>
+        <p className='flex-grow flex justify-center items-start'>{description}</p>
+      </div>
+
+      {showDetails && (
+        <ProjectDetailsOverlay project={project} onClose={handleCloseDetails} />
+      )}
+    </>
   );
 };
 
