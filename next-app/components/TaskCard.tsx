@@ -3,9 +3,9 @@
 import { useEffect, useState, useRef } from "react";
 
 const TaskCard = ({ task, projects }: any) => {
-    const name = task.name;
+    const name = task.name.length > 30 ? task.name.slice(0, 30) + '...' : task.name;
     const startDate = new Date(task.startedAt).toLocaleDateString();
-    const description = task.description.length > 150 ? task.description.slice(0, 150) + '...' : task.description;
+    const description = task.description.length > 50 ? task.description.slice(0, 50) + '...' : task.description;
     const status = task.status;
 
     // store the current status in state

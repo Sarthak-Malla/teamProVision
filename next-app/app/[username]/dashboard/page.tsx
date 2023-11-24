@@ -9,7 +9,7 @@ import TaskCard from '@/components/TaskCard';
 import ProjectDetailsOverlay from '@/components/ProjectDetailsOverlay';
 
 const ProjectCard = ({ project }: any) => {
-  const name = project.name;
+  const name = project.name > 30 ? project.name.slice(0, 30) + '...' : project.name;
   const description = project.description.slice(0, 150) + '...';
   const startDate = new Date(project.startedAt).toLocaleDateString();
 

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 const FeatureCard = ({ title, description }: { title: string, description: string }) => (
   <div className="w-64 p-8 text-center border border-quaternary shadow-lg">
@@ -20,7 +19,6 @@ const Footer = () => {
 }
 
 export default function Home() {
-  const [showOverlay, setShowOverlay] = useState(false);
 
   const features = [
     {

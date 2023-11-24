@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { useUserContext } from '@/app/context/store';
 
@@ -50,10 +51,6 @@ function SignInButton({ leader }: { leader: boolean }) {
                     console.error('Error creating user');
                 }
 
-                // redirect to the dashboard
-                const slug = user.displayName?.replace(' ', '-');
-                window.location.href = `/${slug}/dashboard`;
-
             }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
@@ -93,6 +90,12 @@ const SignUp = () => {
     const handleNoClick = () => {
         setIsLeader(false);
     };
+
+    const slug = username?.replace(' ', '-');
+    const router = useRouter();
+    if (user) {
+        router.push(`/${slug}/dashboard`);
+    }
 
     return (
         <div className="flex justify-center items-center h-[calc(100vh-12rem)]">
