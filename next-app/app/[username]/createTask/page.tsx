@@ -49,13 +49,13 @@ function TaskForm() {
     if (user && !count) {
         // only fetch projects once
         setCount(1);
-    
+
         fetch(`/api/getProjects?email=${user?.email}`)
-          .then((res) => res.json())
-          .then((data) => {
-            setProjects(data);
-          });
-      }
+            .then((res) => res.json())
+            .then((data) => {
+                setProjects(data);
+            });
+    }
 
 
 
@@ -120,16 +120,29 @@ function TaskForm() {
         setRedirect(true);
     };
 
+
+    // check if the url is valid, else redirect to 404
+    if (user && currUsername !== user?.username) {
+        return (
+            <div>
+                <h1 className="text-3xl font-bold text-center mt-10">403 Forbidden</h1>
+                <p className="text-center mt-4">
+                    You can not view this page.
+                </p>
+            </div>
+        );
+    }
+
     return (
         <div className='flex flex-col justify-start items-center min-h-screen'>
             <h1 className="m-8 text-4xl">Create Your Task</h1>
-    
+
             {!user && (
                 <p className="">
                     Please <a href="/login" className="">log in</a> to view your dashboard.
                 </p>
             )}
-    
+
             {user && (
                 <div className='p-4 w-[40%] bg-primary border mx-auto'>
                     <form onSubmit={handleFormSubmit} className="" id="taskForm">
@@ -143,7 +156,7 @@ function TaskForm() {
                                 onChange={(e) => setTaskName(e.target.value)}
                             />
                         </div>
-    
+
                         <div className="p-2">
                             <label className="block">Description:</label>
                             <textarea
@@ -152,7 +165,7 @@ function TaskForm() {
                                 onChange={(e) => setTaskDescription(e.target.value)}
                             ></textarea>
                         </div>
-    
+
                         <div className="p-2">
                             <label className="block">Started Date:</label>
                             <input
@@ -163,7 +176,7 @@ function TaskForm() {
                                 onChange={(e) => setTaskStartDate(e.target.value)}
                             />
                         </div>
-    
+
                         <div className="p-2">
                             <label className="block">Due Date:</label>
                             <input
@@ -173,7 +186,7 @@ function TaskForm() {
                                 onChange={(e) => setTaskDueDate(e.target.value)}
                             />
                         </div>
-    
+
                         <div className="p-2">
                             <label className="block">Status:</label>
                             <select
@@ -186,7 +199,7 @@ function TaskForm() {
                                 <option value="Completed">Completed</option>
                             </select>
                         </div>
-    
+
                         <div className="p-2">
                             <label className="block">Members:</label>
                             <div id="memberContainer" className="mb-2 flex flex-wrap">
@@ -205,7 +218,7 @@ function TaskForm() {
                                 onKeyDown={handleAddMember}
                             />
                         </div>
-    
+
                         <div className="p-2">
                             <label className="block">Project (Optional):</label>
                             <select
@@ -220,7 +233,7 @@ function TaskForm() {
                                 ))}
                             </select>
                         </div>
-    
+
                         <div className='flex justify-center items-center p-2'>
                             <button
                                 type="submit"
@@ -234,7 +247,7 @@ function TaskForm() {
             )}
         </div>
     );
-    
+
 }
 
 // Export the Next.js component

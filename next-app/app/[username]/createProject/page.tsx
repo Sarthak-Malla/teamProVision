@@ -108,6 +108,18 @@ function CreateProjectForm() {
         setRedirect(true);
     };
 
+    // check if the url is valid, else redirect to 404
+    if (user && currUsername !== user?.username) {
+        return (
+            <div>
+                <h1 className="text-3xl font-bold text-center mt-10">403 Forbidden</h1>
+                <p className="text-center mt-4">
+                    You can not view this page.
+                </p>
+            </div>
+        );
+    }
+
     return (
         <div className='flex flex-col justify-start items-center min-h-screen'>
             <h1 className="m-8 text-4xl">Create Your Project</h1>
@@ -187,7 +199,7 @@ function CreateProjectForm() {
                                 onKeyDown={handleAddMember}
                             />
                         </div>
-                        
+
                         <div className='flex justify-center items-center p-2'>
                             <button
                                 type="submit"

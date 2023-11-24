@@ -5,6 +5,9 @@ import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 import { useUserContext } from '@/app/context/store';
 
+import { useState } from 'react';
+import { set } from 'mongoose';
+
 export default function Login() {
   const { user } = useUserContext();
 
@@ -41,6 +44,8 @@ function SignOutButton() {
 
 function SignInButton() {
 
+  const [signedIn, setSignedIn] = useState(true);
+  
   const signInWithGoogle = async () => {
 
     signInWithPopup(auth, provider)
@@ -52,7 +57,11 @@ function SignInButton() {
         const response = await fetch(`api/getUser?email=${email}`);
         const data = await response.json();
 
-        if (data.length === 0) {
+        setSignedIn(true);
+
+        if (data === null) {
+          setSignedIn(false);
+          console.log('User does not exist');
           signOut(auth).then(() => {
             console.log('Signed out');
           }).catch((error) => {
@@ -71,7 +80,13 @@ function SignInButton() {
   }
 
   return (
-    <div id="sign-in-div" className="text-center">
+    <div id="sign-in-div" className="text-center flex flex-col gap-8 justify-center items-center">
+
+      {!signedIn &&
+        <div className='flex justify-center items-center'>
+          <h1 className='text-3xl font-bold p-4 text-[#ffffff] bg-[#ff0000] '>You have not Signed Up!</h1>
+        </div>
+      }
 
       <button
         onClick={signInWithGoogle}

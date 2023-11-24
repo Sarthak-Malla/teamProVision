@@ -7,14 +7,6 @@ import { usePathname } from 'next/navigation';
 import { useUserContext } from '@/app/context/store';
 import TaskCard from '@/components/TaskCard';
 
-// set-up a mock user
-// const mockUser = {
-//   username: 'sampleuser',
-//   team_leader: false,
-//   projects: [],
-//   tasks: [],
-// };
-
 const ProjectCard = ({ project }: any) => {
   const name = project.name;
   const description = project.description.slice(0, 150) + '...';
@@ -94,6 +86,18 @@ const Dashboard = () => {
       .then((data) => {
         setTasks(data);
       });
+  }
+
+  // check if the url is valid, else redirect to 404
+  if (user && currUsername !== user?.username) {
+    return (
+      <div>
+        <h1 className="text-3xl font-bold text-center mt-10">403 Forbidden</h1>
+        <p className="text-center mt-4">
+          You can not view this page.
+        </p>
+      </div>
+    );
   }
 
   return (
