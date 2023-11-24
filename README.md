@@ -116,18 +116,19 @@ These user stories succinctly outline the key functionalities available to leade
 ## Research Topics
 
 * (6 points) Next.js
-    * I am using Next.js for the frontend of the application. It is a React framework that makes it easier to build React applications.
+    * I am using Next.js for the frontend and backed of the application. It is a React framework that makes it easier to build React applications.
+    * I have implement React hooks for state management.
 * (2 points) Google Authentication (Firebase)
-    * I want register and log in through google authentication using Firebase Authentication
+    * Register and log in handled through google authentication using Firebase Authentication
 * (2 points) TailwindCSS + dotenv
-    * use tailwind for easier styling of the pages. dotenv for environment variables
+    * Used tailwind for easier styling of the pages.
+    * Used dotenv for environment variables
 
 ## [Link to Initial Main Project File](app.mjs)
 
 ## Annotations / References Used
 
 1. [TailwindCSS docs](https://v2.tailwindcss.com/docs)
-<!-- 2. [Passport Authentication](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jdm7QX143aMLAqyM-jTZ2x) -->
 2. [Next.js docs](https://nextjs.org/docs/getting-started)
 3. [Firebase Authentication](https://firebase.google.com/docs/auth)
 4. [Fireship.io](https://fireship.io/courses/react-next-firebase)
