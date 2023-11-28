@@ -33,7 +33,7 @@ function SignInButton({ leader }: { leader: boolean }) {
                 const user = result.user;
 
                 const email = user.email ? user.email : '';
-                const name = user.displayName ? user.displayName : '';
+                const name = user.displayName ? user.displayName.replace('-', ' ') : '';
 
                 const response = await fetch(`api/createUser?query=${leader}`, {
                     method: 'POST',
@@ -50,6 +50,10 @@ function SignInButton({ leader }: { leader: boolean }) {
                 } else {
                     console.error('Error creating user');
                 }
+
+                // redirect to dashboard
+                const slug = name.replace(' ', '-');
+                window.location.href = `/${slug}/dashboard`;
 
             }).catch((error) => {
                 const errorCode = error.code;
