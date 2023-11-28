@@ -33,7 +33,9 @@ function SignInButton({ leader }: { leader: boolean }) {
                 const user = result.user;
 
                 const email = user.email ? user.email : '';
-                const name = user.displayName ? user.displayName.replace('-', ' ') : '';
+
+                // this will avoid any errors if the user's display name has a hyphen
+                const name = user.displayName ? user.displayName.trim().replace('-', ' ') : '';
 
                 const response = await fetch(`api/createUser?query=${leader}`, {
                     method: 'POST',
