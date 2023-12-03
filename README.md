@@ -20,47 +20,46 @@ An Example User:
 
 ```javascript
 {
-  username: "__username__",
-  hash: // a password hash,
-  team_leader: // a boolean value if the user is a team learder or not,
-
-  /* Note that a Task could be independent of a Project */
-  projects: // an arroy of reference to Project documents,
-  tasks: // an array of reference to Tasks documents,
-}
+    userID: string, // a unique identifier for the user
+    username: string, // username of the user
+    email: string, // email of the user
+    team_leader: boolean, // true if the user is a team leader
+    projects: string[], // an array of reference to Project documents associated with this user
+    tasks: string[] // an array of reference to Task documents associated with this user
+}; 
 ```
 
 An Example Project:
 
 ```javascript
 {
-  user: // a reference to a User object
-  name: "StudySnap: snap your notes",
-  description: `
-      An instagram and snapchat blended web application to share notes among students...
-  `
-  creator: // a reference to User who created the Project
-  tasks: // an array of reference to Tasks documents associated with this project,
-  startedAt: // timestamp
-  deadline: // timestamp
-  members: // an array of reference to Users
-  leader: // a reference to the Team Leader for the Project
-}
+    projectID: string, // a unique identifier for the project
+    user: {}, // a reference to the User who created this project
+    name: string, // name of the project
+    description: string, // description of the project
+    creator: {}, // a reference to the User who created this project
+    tasks: string[], // an array of reference to Task documents associated with this project
+    startedAt: Date, // timestamp
+    deadline: Date, // timestamp
+    members: string[], // an array of reference to User documents associated with this project
+    leader: {} // a reference to the User who is the leader of this project
+};
 ```
 
 An Example Task:
 
 ```javascript
 {
-  user: // an array of reference to Users who are assigned this task
-  id: // an id to identify the task
-  description: `
-      Create a database integration with FireBase to store all the posted snaps.
-  `
-  startedAt: // timestamp
-  deadline: // timestamp
-  status: // a string to indicate the status of the task
-}
+    taskID: string, // a unique identifier for the task
+    user: {}, // a reference to the User who created this task
+    name: string, // name of the task
+    description: string, // description of the task
+    startedAt: Date, // timestamp
+    deadline: Date, // timestamp
+    status: string, // status of the task
+    members: string[], // an array of reference to User documents associated with this task
+    project: {} // a reference to the Project this task is associated with
+};
 ```
 
 ## [Link to Commented First Draft Schema](db.mjs) 
