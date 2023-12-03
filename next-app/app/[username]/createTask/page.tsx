@@ -163,6 +163,7 @@ function TaskForm() {
                                 name="taskDescription"
                                 className='w-full shadow-sm border rounded p-1'
                                 onChange={(e) => setTaskDescription(e.target.value)}
+                                required
                             ></textarea>
                         </div>
 
