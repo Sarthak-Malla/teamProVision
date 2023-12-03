@@ -109,7 +109,7 @@ function CreateProjectForm() {
     };
 
     // check if the url is valid, else redirect to 404
-    if (user && currUsername !== user?.username) {
+    if (user && (pathname?.split('/')[1] !== user?.username) && (currUsername !== user?.username)) {
         return (
             <div>
                 <h1 className="text-3xl font-bold text-center mt-10">403 Forbidden</h1>
