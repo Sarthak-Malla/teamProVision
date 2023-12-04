@@ -83,7 +83,13 @@ function TaskForm() {
     const handleFormSubmit = async (event: any) => {
         event.preventDefault();
 
-        const projectMembers = members.join(',');
+        let projectMembers = members.join(',');
+
+        // add a project member if entered
+        const member = event.target.projectMembers.value.trim();
+        if (member) {
+            projectMembers += ',' + member;
+        }
 
         const query = {
             email: user.email,
@@ -202,7 +208,7 @@ function TaskForm() {
                         </div>
 
                         <div className="p-2">
-                            <label className="block">Members:</label>
+                            <label className="block">Members (enter comma separated email address):</label>
                             <div id="memberContainer" className="mb-2 flex flex-wrap">
                                 {members.map((member, index) => (
                                     <span key={index} className="bg-secondary text-black p-1 rounded m-1 ">
