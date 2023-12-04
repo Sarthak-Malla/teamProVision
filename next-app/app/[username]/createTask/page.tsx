@@ -86,7 +86,7 @@ function TaskForm() {
         let projectMembers = members.join(',');
 
         // add a project member if entered
-        const member = event.target.projectMembers.value.trim();
+        const member = event.target.taskMembers.value.trim();
         if (member) {
             projectMembers += ',' + member;
         }
